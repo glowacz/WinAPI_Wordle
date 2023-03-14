@@ -132,8 +132,7 @@ void PaintChild(HWND hWnd, int win_no)
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
 			if (white[i][j][win_no])
-				RoundRect(hdc, (j + 1) * tile_margin + j * tile_size, (i + 1) * tile_margin + i * tile_size,
-					(j + 1) * tile_margin + (j + 1) * tile_size, (i + 1) * tile_margin + (i + 1) * tile_size, tile_margin, tile_margin);
+				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
 
 	DeleteObject(pen);
 	DeleteObject(brush);
@@ -146,8 +145,7 @@ void PaintChild(HWND hWnd, int win_no)
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
 			if (grey[i][j][win_no])
-				RoundRect(hdc, (j + 1) * tile_margin + j * tile_size, (i + 1) * tile_margin + i * tile_size,
-					(j + 1) * tile_margin + (j + 1) * tile_size, (i + 1) * tile_margin + (i + 1) * tile_size, tile_margin, tile_margin);
+				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
 
 	DeleteObject(pen);
 	DeleteObject(brush);
@@ -160,8 +158,7 @@ void PaintChild(HWND hWnd, int win_no)
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
 			if (yellow[i][j][win_no])
-				RoundRect(hdc, (j + 1) * tile_margin + j * tile_size, (i + 1) * tile_margin + i * tile_size,
-					(j + 1) * tile_margin + (j + 1) * tile_size, (i + 1) * tile_margin + (i + 1) * tile_size, tile_margin, tile_margin);
+				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
 
 	//SelectObject(hdc, oldPen);
 	DeleteObject(pen);
@@ -176,8 +173,7 @@ void PaintChild(HWND hWnd, int win_no)
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
 			if (green[i][j][win_no])
-				RoundRect(hdc, (j + 1) * tile_margin + j * tile_size, (i + 1) * tile_margin + i * tile_size,
-					(j + 1) * tile_margin + (j + 1) * tile_size, (i + 1) * tile_margin + (i + 1) * tile_size, tile_margin, tile_margin);
+				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
 
 	SelectObject(hdc, oldPen);
 	DeleteObject(pen);

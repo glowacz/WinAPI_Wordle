@@ -32,7 +32,7 @@ void Easy(HWND hWnd)
 
 	SetWhite();
 
-	hwnd[0] = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_easy, hWnd, nullptr, hInst, nullptr);
+	hwnd[0] = CreateWindowW(boardClass, boardTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_easy, hWnd, nullptr, hInst, nullptr);
 
 	/*HFONT hFont = CreateFont(60, 0, 0, 0, FW_HEAVY, FALSE, TRUE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, L"Arial");
 
@@ -59,7 +59,7 @@ void Medium(HWND hWnd)
 
 	for (int i = 0; i < window_count; i++)
 	{
-		hwnd[i] = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_medium, hWnd, nullptr, hInst, nullptr);
+		hwnd[i] = CreateWindowW(boardClass, boardTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_medium, hWnd, nullptr, hInst, nullptr);
 		SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		SetLayeredWindowAttributes(hWnd, 0, (255 * 50) / 100, LWA_ALPHA);
 
@@ -85,7 +85,7 @@ void Hard(HWND hWnd)
 
 	for (int i = 0; i < window_count; i++)
 	{
-		hwnd[i] = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_medium, hWnd, nullptr, hInst, nullptr);
+		hwnd[i] = CreateWindowW(boardClass, boardTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_medium, hWnd, nullptr, hInst, nullptr);
 		SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		SetLayeredWindowAttributes(hWnd, 0, (255 * 50) / 100, LWA_ALPHA);
 

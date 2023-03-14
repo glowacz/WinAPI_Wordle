@@ -2,7 +2,7 @@
 
 #include "wordle.h"
 
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM RegisterClassKeyboard(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
 
@@ -24,6 +24,28 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 
+ATOM RegisterClassBoard(HINSTANCE hInstance)
+{
+	WNDCLASSEXW wcex;
+
+	wcex.cbSize = sizeof(WNDCLASSEX);
+
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = nullptr;
+	wcex.hCursor = nullptr;
+	wcex.hbrBackground = CreateSolidBrush(RGB(255, 255, 255));
+	wcex.lpszMenuName = nullptr;
+
+	wcex.lpszClassName = boardClass;
+	wcex.hIconSm = nullptr;
+
+	return RegisterClassExW(&wcex);
+}
+
 ATOM RegisterClassOverlay(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
@@ -41,7 +63,7 @@ ATOM RegisterClassOverlay(HINSTANCE hInstance)
 	//wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_TUTORIAL);
 	wcex.lpszMenuName = nullptr;
 
-	wcex.lpszClassName = L"Overlay";
+	wcex.lpszClassName = ClassOv;
 	wcex.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
 	//wcex.hIconSm = nullptr;
 
@@ -58,7 +80,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	if (!hWnd)
 		return FALSE;
 
-	hwnd_main = hWnd;
+	hwnd_keyboard = hWnd;
 	// Show this window
 
 	Easy(hWnd);

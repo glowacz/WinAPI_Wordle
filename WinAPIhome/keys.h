@@ -4,13 +4,6 @@
 
 void OnEnter(int win_no)
 {
-	//if (win_no > 0) {
-	//	ofstream out;
-	//	out.open("out.txt");
-	//	out << window_count;
-	//	out.close();
-	//}
-
 	if (j_tile < WORD_LEN - 1)
 		return;
 
@@ -40,8 +33,9 @@ void OnEnter(int win_no)
 		{
 			green_count++;
 			fl = true;
-			white[i_tile][j][win_no] = false;
-			green[i_tile][j][win_no] = true;
+			//white[i_tile][j][win_no] = false;
+			//green[i_tile][j][win_no] = true;
+			temp_colors[j][win_no] = 'g';
 
 			for (int k = 0; k < KEY_COUNT; k++)
 			{
@@ -49,8 +43,6 @@ void OnEnter(int win_no)
 				{
 					key_white[k][win_no] = false;
 					key_green[k][win_no] = true;
-
-					//ofstream out; out.open("out.txt"); out << "green\n"<<win_no; out.close();
 				}
 			}
 		}
@@ -59,8 +51,10 @@ void OnEnter(int win_no)
 			if (word[j] == solution[win_no][i])
 			{
 				fl = true;
-				white[i_tile][j][win_no] = false;
-				yellow[i_tile][j][win_no] = true;
+				//white[i_tile][j][win_no] = false;
+				//yellow[i_tile][j][win_no] = true;
+				if(temp_colors[j][win_no] != 'g')
+					temp_colors[j][win_no] = 'y';
 
 				for (int k = 0; k < KEY_COUNT; k++)
 				{
@@ -74,8 +68,10 @@ void OnEnter(int win_no)
 		}
 		if (!fl)
 		{
-			white[i_tile][j][win_no] = false;
-			grey[i_tile][j][win_no] = true;
+			//white[i_tile][j][win_no] = false;
+			//grey[i_tile][j][win_no] = true;
+
+			temp_colors[j][win_no] = 's';
 
 			for (int k = 0; k < KEY_COUNT; k++)
 			{
@@ -90,6 +86,7 @@ void OnEnter(int win_no)
 
 	if (win_no == window_count - 1)
 	{
+		StartAnimation(0, i_tile);
 		i_tile++;
 		j_tile = -1;
 	}
@@ -115,11 +112,11 @@ void OnEnter(int win_no)
 	//	UpdateWindow(hwnd[i]); // not absolutely necessary ???
 	//}
 
-	InvalidateRect(hwnd[win_no], NULL, TRUE);
-	UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
+	//InvalidateRect(hwnd[win_no], NULL, TRUE);
+	//UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 
-	InvalidateRect(hwnd_main, NULL, TRUE);
-	UpdateWindow(hwnd_main); // not absolutely necessary ???
+	InvalidateRect(hwnd_keyboard, NULL, TRUE);
+	UpdateWindow(hwnd_keyboard); // not absolutely necessary ???
 }
 
 void OnBackspace()

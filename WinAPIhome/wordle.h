@@ -25,9 +25,13 @@ const int MAX_WIN_COUNT = 4;
 const int DICT_SIZE = 16825;
 
 int show, window_count, word_count, level;
-HWND hwnd_main, hwnd[MAX_WIN_COUNT], hwnd_overlay[2];
+HWND hwnd_keyboard, hwnd[MAX_WIN_COUNT], hwnd_overlay[2];
 
 bool window_green[MAX_WIN_COUNT];
+
+// for animation
+//bool getting_smaller[MAX_WORD_COUNT][WORD_LEN], getting_bigger[MAX_WORD_COUNT][WORD_LEN];
+std::pair <int, int> getting_smaller, getting_bigger;
 
 // keyboard keys
 RECT keys[KEY_COUNT][MAX_WIN_COUNT][MAX_WIN_COUNT];
@@ -40,6 +44,7 @@ TCHAR letters[MAX_WORD_COUNT][WORD_LEN][2];
 bool white[MAX_WORD_COUNT][WORD_LEN][MAX_WIN_COUNT], grey[MAX_WORD_COUNT][WORD_LEN][MAX_WIN_COUNT], 
 	yellow[MAX_WORD_COUNT][WORD_LEN][MAX_WIN_COUNT], green[MAX_WORD_COUNT][WORD_LEN][MAX_WIN_COUNT];
 int i_tile, j_tile;
+char temp_colors[WORD_LEN][MAX_WIN_COUNT];
 
 // words
 string words[DICT_SIZE];
@@ -51,8 +56,8 @@ random_device rd;
 mt19937 eng(chrono::steady_clock::now().time_since_epoch().count());
 
 HINSTANCE hInst;
-WCHAR szTitle[MAX_LOADSTRING], TitleOv[MAX_LOADSTRING];
-WCHAR szWindowClass[MAX_LOADSTRING], ClassOv[MAX_LOADSTRING];
+LPCWSTR szTitle = L"WORDLE - KEYBOARD", boardTitle = L"WORDLE - PUZZLE", TitleOv = L"";
+LPCWSTR szWindowClass = L"tutorial", boardClass = L"board", ClassOv = L"Overlay";
 
 // my_init.h
 void ReadTxt();
@@ -77,6 +82,11 @@ void Easy(HWND hWnd);
 void Medium(HWND hWnd);
 void Hard(HWND hWnd);
 void SetWhite();
+
+// animation.h
+void StartAnimation(int win_no, int row);
+void Animate(int row);
+void ChangeTileSize();
 
 // overlays.h
 void OverlayGreen(HWND hWnd, int win_no);

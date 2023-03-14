@@ -6,6 +6,7 @@
 #include "levels.h"
 #include "keys.h"
 #include "overlays.h"
+#include "animation.h"
 
 using namespace std;
 
@@ -15,28 +16,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	LoadStringW(hInstance, IDC_TUTORIAL, szWindowClass, MAX_LOADSTRING);
-	
-	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-
-	std::wstring title(L"WORDLE - KEYBOARD\0");
-	title.copy(szTitle, title.size());
-
-	std::wstring className(L"tutorial\0");
-	className.copy(szWindowClass, className.size());
-
-	title = L"\0";
-	title.copy(TitleOv, title.size());
-
-	className = L"Overlay\0";
-	className.copy(ClassOv, className.size());
-
 	SetTileCords();
 	SetKeyCords();
 
 	ReadTxt();
 
-	MyRegisterClass(hInstance);
+	RegisterClassKeyboard(hInstance);
+	RegisterClassBoard(hInstance);
 	RegisterClassOverlay(hInstance);
 
 	if (!InitInstance(hInstance, nCmdShow))
@@ -74,15 +60,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case IDM_EASY:
 			Easy(hWnd);
-			InvalidateRect(hwnd_main, NULL, TRUE);
+			InvalidateRect(hwnd_keyboard, NULL, TRUE);
 			break;
 		case IDM_MEDIUM:
 			Medium(hWnd);
-			InvalidateRect(hwnd_main, NULL, TRUE);
+			InvalidateRect(hwnd_keyboard, NULL, TRUE);
 			break;
 		case IDM_HARD:
 			Hard(hWnd);
-			InvalidateRect(hwnd_main, NULL, TRUE);
+			InvalidateRect(hwnd_keyboard, NULL, TRUE);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -111,7 +97,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	//	//}
 	//	//else
 	//	//{
-	//	//	ofstream out; out.open("out.txt"); out << lParam; out.close();
+	//	//	
 	//	//}
 	//		
 	//}
@@ -120,27 +106,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		startTime = chrono::high_resolution_clock::now();
-		SetTimer(hWnd, 7, 1, NULL); // Creating first timer
+		SetTimer(hwnd_keyboard, 7, 1, NULL); // Creating first timer
 	}
 	break;
 
 	case WM_TIMER:
 	{
+		if (wParam == 1) // animation
+		{
+			Animate(getting_smaller.first);
+			break;
+		}
 		auto curTime = chrono::high_resolution_clock::now();
 		auto duration = chrono::duration_cast<chrono::milliseconds>(curTime - startTime);
 		auto elapsed = duration.count();
 		auto sec = elapsed / 1000;
 
 		TCHAR s[256];
-		_stprintf_s(s, 256, _T(" Elapsed time : %d,%d"), (int)sec, (int)elapsed % 1000);
-		SetWindowText(hWnd, s);
-		SetTimer(hWnd, 7, 1, NULL); // Creating another timer
+		_stprintf_s(s, 256, _T("WORDLE - KEYBOARD - Elapsed time : %d,%d"), (int)sec, (int)elapsed % 1000);
+		SetWindowText(hwnd_keyboard, s);
+		SetTimer(hwnd_keyboard, 7, 1, NULL); // Creating another timer
 	}
 	break;
 
 	case WM_PAINT:
 	{
-		PaintKeyboard(hwnd_main);
+		PaintKeyboard(hwnd_keyboard);
 		for (int i = 0; i < window_count; i++)
 		{
 			//if(!window_green[i])
@@ -171,8 +162,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_KEYDOWN:
 		{
-			GetTextInfoForKeyMsg(wParam, _T(" KEYDOWN "), buf, bufSize);
-			SetWindowText(hWnd, buf);
+			//GetTextInfoForKeyMsg(wParam, _T(" KEYDOWN "), buf, bufSize);
+			//SetWindowText(hWnd, buf);
 			switch (wParam)
 			{
 				case 13: // Enter
@@ -196,7 +187,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_CTLCOLORSTATIC:
 		{
-			ofstream out; out.open("out.txt"); out <<"brush"; out.close();
+			
 			HBRUSH m_field_brush = CreateSolidBrush(RGB(121, 184, 81));
 			return reinterpret_cast<INT_PTR>(m_field_brush);
 		}

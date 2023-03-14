@@ -8,8 +8,6 @@ void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overl
 	RECT rect;
 	GetWindowRect(hWnd, &rect);
 
-	ofstream out; out.open("out.txt"); out <<rect.left<<"\n" << rect.top << "\n" << rect.right << "\n" << rect.bottom << "\n"; out.close();
-
 	//PAINTSTRUCT ps;
 	//HDC hdc = BeginPaint(hWnd, &ps);
 
