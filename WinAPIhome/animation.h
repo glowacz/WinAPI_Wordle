@@ -46,6 +46,8 @@ void ChangeTileSize()
 		UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 	}
 
+	//InvalidateRect(hwnd[0], NULL, TRUE);
+
 	if (getting_smaller.second < WORD_LEN)
 	{
 		tiles[getting_smaller.first][getting_smaller.second].bottom--;

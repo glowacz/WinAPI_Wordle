@@ -47,6 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	static auto drawTime1 = chrono::high_resolution_clock::now(), drawTime2 = chrono::high_resolution_clock::now();
 	static auto startTime = chrono::high_resolution_clock::now();
 	const int bufSize = 256;
 	TCHAR buf[bufSize];
@@ -106,7 +107,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		startTime = chrono::high_resolution_clock::now();
-		SetTimer(hwnd_keyboard, 7, 1, NULL); // Creating first timer
+		SetTimer(hwnd_keyboard, 7, 2, NULL); // Creating first timer
 	}
 	break;
 
@@ -114,6 +115,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == 1) // animation
 		{
+			drawTime1 = chrono::high_resolution_clock::now();
+			auto drawDuration = chrono::duration_cast<chrono::milliseconds>(drawTime1 - drawTime2);
+			drawTime2 = chrono::high_resolution_clock::now();
+			auto elapsedDur = drawDuration.count();
+
+			ofstream out; out.open("out.txt", ios_base::app);
+			out << elapsedDur << "\n"; out.close();
+			
 			Animate(getting_smaller.first);
 			break;
 		}
@@ -123,9 +132,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		auto sec = elapsed / 1000;
 
 		TCHAR s[256];
-		_stprintf_s(s, 256, _T("WORDLE - KEYBOARD - Elapsed time : %d,%d"), (int)sec, (int)elapsed % 1000);
+		_stprintf_s(s, 256, _T("WORDLE - KEYBOARD. Elapsed time : %d,%d"), (int)sec, (int)elapsed % 1000);
 		SetWindowText(hwnd_keyboard, s);
-		SetTimer(hwnd_keyboard, 7, 1, NULL); // Creating another timer
+		SetTimer(hwnd_keyboard, 2, 1, NULL); // Creating another timer
 	}
 	break;
 
@@ -134,18 +143,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PaintKeyboard(hwnd_keyboard);
 		for (int i = 0; i < window_count; i++)
 		{
-			//if(!window_green[i])
-			PaintChild(hwnd[i], i);
-			//if (window_green[i])
-			//{
-			//	OverlayGreen(hwnd[i], i);
-			//}
-			//else
-			//{
-			//	PaintChild(hwnd[i], i);
-			//}
-				
+			if(hwnd[i] == hWnd)
+				PaintChild(hwnd[i], i);
 		}
+		//for (int i = 0; i < window_count; i++)
+		//{
+		//	//if(!window_green[i])
+		//	PaintChild(hwnd[i], i);
+		//	//if (window_green[i])
+		//	//{
+		//	//	OverlayGreen(hwnd[i], i);
+		//	//}
+		//	//else
+		//	//{
+		//	//	PaintChild(hwnd[i], i);
+		//	//}
+		//		
+		//}
 	}
 	break;
 
