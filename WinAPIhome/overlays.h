@@ -5,6 +5,8 @@
 
 void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overlayed by a green semitransparent window
 {
+	//EnableWindow(hWnd, false);
+
 	RECT rect;
 	GetWindowRect(hWnd, &rect);
 
@@ -82,10 +84,14 @@ void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overl
 
 	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_CHILD | WS_VISIBLE | SS_CENTER, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
 	
-	hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
+	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
 	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, 0, 0, 100, 100, hWnd, nullptr, hInst, nullptr);
+
 	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
-	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED | CW_USEDEFAULT | CW_USEDEFAULT, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
+	hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 
+        hwnd_keyboard, nullptr, hInst, nullptr);
+	
+    //hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED | CW_USEDEFAULT | CW_USEDEFAULT, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
 	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left + 20, rect.top + 20, rect.right - rect.left - 20, rect.bottom - rect.top - 20, hWnd, nullptr, hInst, nullptr);
 	
 	//hwnd[0] = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_easy, hWnd, nullptr, hInst, nullptr);

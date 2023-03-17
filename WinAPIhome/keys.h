@@ -14,16 +14,23 @@ void OnEnter(int win_no)
 
 	if (dict.find(word) == dict.end())
 	{
+		//out.open("out.txt", ios_base::app);
+		//out <<"if: " << word << "\n"; out.close();
+
 		for (int j = 0; j < WORD_LEN; j++)
 			letters[i_tile][j][0] = '\0';
 
 		if (win_no == window_count - 1)
 			j_tile = -1;
 
-		InvalidateRect(hwnd[win_no], NULL, TRUE);
+		SetPaintRow(i_tile, win_no);
+		InvalidateRect(hwnd[win_no], NULL, FALSE);
 		UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 		return;
 	}
+
+	//out.open("out.txt", ios_base::app);
+	//out << "enter2: " << win_no << "  " << word << "\n"; out.close();
 
 	int green_count = 0;
 	for (int j = 0; j < WORD_LEN; j++)
@@ -84,19 +91,18 @@ void OnEnter(int win_no)
 		}
 	}
 
-	if (win_no == window_count - 1)
-	{
-		StartAnimation(0, i_tile);
-		i_tile++;
-		j_tile = -1;
-	}
-
 	if (green_count == WORD_LEN)
 	{
 		window_green[win_no] = true;
 		OverlayGreen(hwnd[win_no], win_no);
 	}
-		
+	
+	if (win_no == window_count - 1)
+	{
+		StartAnimation(0, i_tile);
+		i_tile++;
+		j_tile = -1;
+	}	
 
 	//if (i_tile == 5)
 	//{
@@ -115,6 +121,7 @@ void OnEnter(int win_no)
 	//InvalidateRect(hwnd[win_no], NULL, TRUE);
 	//UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 
+	paint_keyboard = true;
 	InvalidateRect(hwnd_keyboard, NULL, TRUE);
 	UpdateWindow(hwnd_keyboard); // not absolutely necessary ???
 }
@@ -123,17 +130,28 @@ void OnBackspace()
 {
 	if (j_tile == -1)
 		return;
-	if (j_tile == WORD_LEN)
-		j_tile--;
-	letters[i_tile][j_tile--][0] = '\0';
-	if (j_tile < -1)
-		j_tile = -1;
+
+	if (j_tile >= WORD_LEN)
+		j_tile = WORD_LEN - 1;
+
+	letters[i_tile][j_tile][0] = '\0';
+
+	//paint_rect[i_tile][j_tile][win_no] = true;
+	//InvalidateRect(hwnd[win_no], NULL, FALSE);
+	//UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 
 	for (int i = 0; i < window_count; i++)
 	{
-		InvalidateRect(hwnd[i], NULL, TRUE);
+		paint_rect[i_tile][j_tile][i] = true;
+		InvalidateRect(hwnd[i], NULL, FALSE);
 		UpdateWindow(hwnd[i]); // not absolutely necessary ???
 	}
+
+	//if(win_no == window_count - 1)
+		j_tile--;
+
+	if (j_tile < -1)
+		j_tile = -1;
 }
 
 void OnChar(WPARAM wParam)
@@ -147,9 +165,23 @@ void OnChar(WPARAM wParam)
 	letters[i_tile][j_tile][0] = toupper((TCHAR)wParam);
 	letters[i_tile][j_tile][1] = '\0';
 
+	/*if (win_no == 0)
+	{
+		if (j_tile + 1 < WORD_LEN)
+			j_tile++;
+
+		letters[i_tile][j_tile][0] = toupper((TCHAR)wParam);
+		letters[i_tile][j_tile][1] = '\0';
+	}*/
+
+	//paint_rect[i_tile][j_tile][win_no] = true;
+	//InvalidateRect(hwnd[win_no], NULL, FALSE);
+	//UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
+
 	for (int i = 0; i < window_count; i++)
 	{
-		InvalidateRect(hwnd[i], NULL, TRUE);
+		paint_rect[i_tile][j_tile][i] = true;
+		InvalidateRect(hwnd[i], NULL, FALSE);
 		UpdateWindow(hwnd[i]); // not absolutely necessary ???
 	}
 }

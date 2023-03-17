@@ -70,23 +70,19 @@ ATOM RegisterClassOverlay(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL InitInstance()
 {
-	hInst = hInstance;
-
 	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-		GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2, 900, width, height, nullptr, nullptr, hInstance, nullptr);
-
-	if (!hWnd)
-		return FALSE;
+		GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2, GetSystemMetrics(SM_CYSCREEN) - height - 100, width, height, nullptr, nullptr, hInst, nullptr);
 
 	hwnd_keyboard = hWnd;
+
+	paint_keyboard = true;
+	
 	// Show this window
-
-	Easy(hWnd);
-
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	ShowWindow(hwnd_keyboard, show);
+	InvalidateRect(hwnd_keyboard, NULL, TRUE);
+	UpdateWindow(hwnd_keyboard);
 
 	return TRUE;
 }

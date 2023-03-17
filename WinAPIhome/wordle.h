@@ -17,7 +17,7 @@
 
 using namespace std;
 
-const int width = 616 + 16, height = 189 + 100, w_child = 311 + 16, h_easy = 372, h_medium = 494 + 2 * 8 * 4, h_hard = 616 + 64;
+const int width = 616 + 16, height = 189 + 100, w_child = 311 + 16, h_easy = 372 + 40, h_medium = 494 + 40, h_hard = 616 + 40;
 const int tile_size = 55, tile_margin = 6;
 const int WORD_LEN = 5, MAX_WORD_COUNT = 10;
 const int KEY_COUNT = 26;
@@ -28,6 +28,9 @@ int show, window_count, word_count, level;
 HWND hwnd_keyboard, hwnd[MAX_WIN_COUNT], hwnd_overlay[2];
 
 bool window_green[MAX_WIN_COUNT];
+
+// for paints
+bool paint_keyboard, paint_rect[MAX_WORD_COUNT][WORD_LEN][MAX_WIN_COUNT], during_animation;
 
 // for animation
 //bool getting_smaller[MAX_WORD_COUNT][WORD_LEN], getting_bigger[MAX_WORD_COUNT][WORD_LEN];
@@ -64,6 +67,9 @@ void ReadTxt();
 void SetKeyCords();
 void SetTileCords();
 void SetKeyLetters();
+void SetWhite();
+void SetPaintAll();
+void SetPaintRow(int row, int win_no);
 
 // keys.h
 void OnEnter(int);
@@ -77,11 +83,12 @@ void PaintChild(HWND, int);
 
 // levels.h
 void ChooseSol();
-void Destroy_children();
+void 
+_children();
+void AllLevels();
 void Easy(HWND hWnd);
 void Medium(HWND hWnd);
 void Hard(HWND hWnd);
-void SetWhite();
 
 // animation.h
 void StartAnimation(int win_no, int row);

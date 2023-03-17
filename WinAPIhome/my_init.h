@@ -110,3 +110,55 @@ void SetTileCords()
 		}
 	}
 }
+
+void SetWhite()
+{
+	for (int win_no = 0; win_no < MAX_WIN_COUNT; win_no++)
+	{
+		for (int i = 0; i < MAX_WORD_COUNT; i++)
+			for (int j = 0; j < WORD_LEN; j++)
+				white[i][j][win_no] = true;
+		for (int i = 0; i < MAX_WORD_COUNT; i++)
+			for (int j = 0; j < WORD_LEN; j++)
+				grey[i][j][win_no] = false;
+		for (int i = 0; i < MAX_WORD_COUNT; i++)
+			for (int j = 0; j < WORD_LEN; j++)
+				yellow[i][j][win_no] = false;
+		for (int i = 0; i < MAX_WORD_COUNT; i++)
+			for (int j = 0; j < WORD_LEN; j++)
+				green[i][j][win_no] = false;
+
+		for (int i = 0; i < KEY_COUNT; i++)
+			key_white[i][win_no] = true;
+		for (int i = 0; i < KEY_COUNT; i++)
+			key_grey[i][win_no] = false;
+		for (int i = 0; i < KEY_COUNT; i++)
+			key_yellow[i][win_no] = false;
+		for (int i = 0; i < KEY_COUNT; i++)
+			key_green[i][win_no] = false;
+	}
+
+	for (int i = 0; i < MAX_WORD_COUNT; i++)
+		for (int j = 0; j < WORD_LEN; j++)
+			letters[i][j][0] = '\0';
+
+	i_tile = 0;
+	j_tile = -1;
+}
+
+void SetPaintAll()
+{
+	for (int win_no = 0; win_no < window_count; win_no++) {
+		for (int i = 0; i < MAX_WORD_COUNT; i++)
+			for (int j = 0; j < WORD_LEN; j++)
+				paint_rect[i][j][win_no] = true;
+	}
+}
+
+void SetPaintRow(int row, int win_no)
+{
+	for (int win_no = 0; win_no < window_count; win_no++) {
+			for (int j = 0; j < WORD_LEN; j++)
+				paint_rect[row][j][win_no] = true;
+	}
+}

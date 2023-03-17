@@ -25,8 +25,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	RegisterClassBoard(hInstance);
 	RegisterClassOverlay(hInstance);
 
-	if (!InitInstance(hInstance, nCmdShow))
-		return FALSE;
+	hInst = hInstance;
+
+	//if (!InitInstance(hInstance, nCmdShow))
+	//	return FALSE;
+
+	InitInstance();
+
+	Easy(hwnd_keyboard);
 
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TUTORIAL));
 
@@ -91,16 +97,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	//case WM_NCHITTEST:
 	//{
-	//	//if( DefWindowProc(hWnd, message, wParam, lParam) == HTCLIENT)
-	//	////if (lParam == HTCLIENT)
-	//	//{
-	//	//	return HTCAPTION;
-	//	//}
-	//	//else
-	//	//{
-	//	//	
-	//	//}
-	//		
+	//	if( DefWindowProc(hWnd, message, wParam, lParam) == HTCLIENT)
+	//		return HTCAPTION;
+	//	return DefWindowProc(hWnd, message, wParam, lParam);	
 	//}
 	//break;
 
@@ -113,19 +112,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 	{
+
 		if (wParam == 1) // animation
 		{
-			drawTime1 = chrono::high_resolution_clock::now();
-			auto drawDuration = chrono::duration_cast<chrono::milliseconds>(drawTime1 - drawTime2);
-			drawTime2 = chrono::high_resolution_clock::now();
-			auto elapsedDur = drawDuration.count();
-
-			ofstream out; out.open("out.txt", ios_base::app);
-			out << elapsedDur << "\n"; out.close();
+			//drawTime1 = chrono::high_resolution_clock::now();
+			//auto drawDuration = chrono::duration_cast<chrono::milliseconds>(drawTime1 - drawTime2);
+			//drawTime2 = chrono::high_resolution_clock::now();
+			//auto elapsedDur = drawDuration.count();
 			
 			Animate(getting_smaller.first);
 			break;
 		}
+
+		// timer
 		auto curTime = chrono::high_resolution_clock::now();
 		auto duration = chrono::duration_cast<chrono::milliseconds>(curTime - startTime);
 		auto elapsed = duration.count();
@@ -140,26 +139,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_PAINT:
 	{
-		PaintKeyboard(hwnd_keyboard);
+		if (paint_keyboard) 
+		{
+			PaintKeyboard(hwnd_keyboard);
+			paint_keyboard = false;
+		}
+
 		for (int i = 0; i < window_count; i++)
 		{
 			if(hwnd[i] == hWnd)
 				PaintChild(hwnd[i], i);
 		}
-		//for (int i = 0; i < window_count; i++)
-		//{
-		//	//if(!window_green[i])
-		//	PaintChild(hwnd[i], i);
-		//	//if (window_green[i])
-		//	//{
-		//	//	OverlayGreen(hwnd[i], i);
-		//	//}
-		//	//else
-		//	//{
-		//	//	PaintChild(hwnd[i], i);
-		//	//}
-		//		
-		//}
 	}
 	break;
 
@@ -171,13 +161,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	
 #pragma region keyboard_keys
 		case WM_CHAR:
+		{
 			OnChar(wParam);
+		}
 		break;
 
 		case WM_KEYDOWN:
 		{
-			//GetTextInfoForKeyMsg(wParam, _T(" KEYDOWN "), buf, bufSize);
-			//SetWindowText(hWnd, buf);
 			switch (wParam)
 			{
 				case 13: // Enter
@@ -188,7 +178,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 
 				case 8: // Backspace
+				{
+					//for (int win_no = 0; win_no < window_count; win_no++)
+					//	if (hwnd[win_no] == hWnd)
 					OnBackspace();
+				}
 				break;
 
 				default:
@@ -198,6 +192,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 #pragma endregion keyboard_keys
+
+        case WM_NCHITTEST: {
+            if (DefWindowProc(hWnd, message, wParam, lParam) == HTCLIENT)
+                return HTCAPTION;
+            return DefWindowProc(hWnd, message, wParam, lParam);
+        }
 
 		case WM_CTLCOLORSTATIC:
 		{

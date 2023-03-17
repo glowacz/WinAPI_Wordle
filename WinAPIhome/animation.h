@@ -4,16 +4,23 @@
 
 void StartAnimation(int win_no, int row)
 {
-	getting_smaller = {row, 0};
-	getting_bigger = {row, -1};
-	SetTimer(hwnd[win_no], 1, 1, nullptr);
+	getting_smaller = { row, 0 };
+	getting_bigger = { row, -1 };
+
+	during_animation = true;
+	//SetTimer(hwnd[win_no], 1, 1, nullptr);
+	SetTimer(hwnd_keyboard, 1, 1, nullptr);
+	
 }
 
 void Animate(int row)
 {
 	if (getting_bigger.second == WORD_LEN - 1 &&
 		tiles[getting_bigger.first][getting_bigger.second].bottom - tiles[getting_bigger.first][getting_bigger.second].top >= tile_size)
+	{
+		during_animation = false;
 		return;
+	}
 
 	ChangeTileSize();
 
@@ -41,22 +48,29 @@ void ChangeTileSize()
 {
 	for (int win_no = 0; win_no < window_count; win_no++)
 	{
-		InvalidateRect(hwnd[win_no], NULL, TRUE);
+		//SetPaintAll();
+		SetPaintRow(getting_smaller.first, win_no);
+		InvalidateRect(hwnd[win_no], NULL, FALSE);
 		//InvalidateRect(hwnd[win_no], &tiles[getting_smaller.first][getting_smaller.second], TRUE);
 		UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 	}
 
 	//InvalidateRect(hwnd[0], NULL, TRUE);
+	//SetPaintAll();
+	//InvalidateRect(hwnd[0], NULL, FALSE);
+	//UpdateWindow(hwnd[0]); // not absolutely necessary ???
+
+	//InvalidateRect(hwnd[0], NULL, TRUE);
 
 	if (getting_smaller.second < WORD_LEN)
 	{
-		tiles[getting_smaller.first][getting_smaller.second].bottom--;
-		tiles[getting_smaller.first][getting_smaller.second].top++;
+		tiles[getting_smaller.first][getting_smaller.second].bottom -= 2;
+		tiles[getting_smaller.first][getting_smaller.second].top += 2;
 	}
 
 	if (getting_bigger.second != -1)
 	{
-		tiles[getting_bigger.first][getting_bigger.second].bottom++;
-		tiles[getting_bigger.first][getting_bigger.second].top--;
+		tiles[getting_bigger.first][getting_bigger.second].bottom += 2;
+		tiles[getting_bigger.first][getting_bigger.second].top -= 2;
 	}
 }

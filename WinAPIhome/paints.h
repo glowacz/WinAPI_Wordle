@@ -18,22 +18,7 @@ void PaintKeyboard(HWND hWnd)
 
 	for (int i = 0; i < KEY_COUNT; i++)
 	{
-		//if(key_white[i][0])
-			Rectangle(hdc, keys[i][0][0].left, keys[i][0][0].top, keys[i][0][0].right, keys[i][0][0].bottom);
-		/*if (window_count == 1)
-			Rectangle(hdc, keys[i].left, keys[i].top, keys[i].right, keys[i].bottom);
-		else if (window_count == 2)
-		{
-			Rectangle(hdc, keys[i].left, keys[i].top, (keys[i].left + keys[i].right)/2, keys[i].bottom);
-			Rectangle(hdc, (keys[i].left + keys[i].right) / 2, keys[i].top, keys[i].right, keys[i].bottom);
-		}
-		else if (window_count == 4)
-		{
-			Rectangle(hdc, keys[i].left, keys[i].top, (keys[i].left + keys[i].right) / 2, (keys[i].top + keys[i].bottom)/2);
-			Rectangle(hdc, (keys[i].left + keys[i].right) / 2, keys[i].top, keys[i].right, (keys[i].top + keys[i].bottom) / 2);
-			Rectangle(hdc, keys[i].left, (keys[i].top + keys[i].bottom) / 2, (keys[i].left + keys[i].right) / 2, keys[i].bottom);
-			Rectangle(hdc, (keys[i].left + keys[i].right) / 2, (keys[i].top + keys[i].bottom) / 2, keys[i].right, keys[i].bottom);
-		}*/
+		Rectangle(hdc, keys[i][0][0].left, keys[i][0][0].top, keys[i][0][0].right, keys[i][0][0].bottom);
 	}
 
 	DeleteObject(pen);
@@ -71,20 +56,6 @@ void PaintKeyboard(HWND hWnd)
 		{
 			if (key_yellow[i][j])
 				Rectangle(hdc, keys[i][level][j].left, keys[i][level][j].top, keys[i][level][j].right, keys[i][level][j].bottom);
-			/*if (window_count == 1)
-				Rectangle(hdc, keys[i].left, keys[i].top, keys[i].right, keys[i].bottom);
-			else if (window_count == 2)
-			{
-				Rectangle(hdc, keys[i].left, keys[i].top, (keys[i].left + keys[i].right) / 2, keys[i].bottom);
-				Rectangle(hdc, (keys[i].left + keys[i].right) / 2, keys[i].top, keys[i].right, keys[i].bottom);
-			}
-			else if (window_count == 4)
-			{
-				Rectangle(hdc, keys[i].left, keys[i].top, (keys[i].left + keys[i].right) / 2, (keys[i].top + keys[i].bottom) / 2);
-				Rectangle(hdc, (keys[i].left + keys[i].right) / 2, keys[i].top, keys[i].right, (keys[i].top + keys[i].bottom) / 2);
-				Rectangle(hdc, keys[i].left, (keys[i].top + keys[i].bottom) / 2, (keys[i].left + keys[i].right) / 2, keys[i].bottom);
-				Rectangle(hdc, (keys[i].left + keys[i].right) / 2, (keys[i].top + keys[i].bottom) / 2, keys[i].right, keys[i].bottom);
-			}*/
 		}
 	}
 
@@ -117,6 +88,11 @@ void PaintKeyboard(HWND hWnd)
 
 void PaintChild(HWND hWnd, int win_no)
 {
+    //ofstream out; out.open("out.txt", ios_base::app);
+    //out << "paint child" << "\n"; out.close();
+
+	//if (window_green[win_no])
+	//	return;
 	//HFONT hFont = CreateFont(60, 0, 0, 0, FW_HEAVY, FALSE, TRUE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, L"Arial");
 
 	//SendMessage(hwnd[0], WM_SETFONT, WPARAM(hFont), TRUE);
@@ -124,15 +100,28 @@ void PaintChild(HWND hWnd, int win_no)
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(hWnd, &ps);
 
-	HPEN pen = CreatePen(PS_SOLID, 2, RGB(220, 220, 220));
+	HPEN pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
 	HPEN oldPen = (HPEN)SelectObject(hdc, pen);
-	HBRUSH brush = CreateSolidBrush(RGB(251, 252, 255));
+	HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
 	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
+
+	if (during_animation && !window_green[win_no])
+	{
+		Rectangle(hdc, tiles[getting_smaller.first][0].left, (getting_smaller.first + 1) * tile_margin + getting_smaller.first * tile_size,
+			tiles[getting_smaller.first][WORD_LEN - 1].right, (getting_smaller.first + 1) * tile_margin + (getting_smaller.first + 1) * tile_size);
+	}
+
+	pen = CreatePen(PS_SOLID, 2, RGB(220, 220, 220));
+	oldPen = (HPEN)SelectObject(hdc, pen);
+	brush = CreateSolidBrush(RGB(251, 252, 255));
+	oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
-			if (white[i][j][win_no])
+			if (white[i][j][win_no] && paint_rect[i][j][win_no]) {
 				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
+				paint_rect[i][j][win_no] = false;
+			}
 
 	DeleteObject(pen);
 	DeleteObject(brush);
@@ -144,8 +133,10 @@ void PaintChild(HWND hWnd, int win_no)
 
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
-			if (grey[i][j][win_no])
+			if (grey[i][j][win_no] && paint_rect[i][j][win_no]) {
 				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
+				paint_rect[i][j][win_no] = false;
+			}
 
 	DeleteObject(pen);
 	DeleteObject(brush);
@@ -157,8 +148,10 @@ void PaintChild(HWND hWnd, int win_no)
 
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
-			if (yellow[i][j][win_no])
+			if (yellow[i][j][win_no] && paint_rect[i][j][win_no]) {
 				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
+				paint_rect[i][j][win_no] = false;
+			}
 
 	//SelectObject(hdc, oldPen);
 	DeleteObject(pen);
@@ -172,8 +165,10 @@ void PaintChild(HWND hWnd, int win_no)
 
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
-			if (green[i][j][win_no])
+			if (green[i][j][win_no] && paint_rect[i][j][win_no]) {
 				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
+				paint_rect[i][j][win_no] = false;
+			}
 
 	SelectObject(hdc, oldPen);
 	DeleteObject(pen);
@@ -204,8 +199,13 @@ void PaintChild(HWND hWnd, int win_no)
 	
 
 	for (int i = 0; i < 6; i++)
+	{
 		for (int j = 0; j < WORD_LEN; j++)
-			DrawText(hdc, letters[i][j], -1, &tiles[i][j], DT_CENTER | DT_VCENTER | DT_NOCLIP | DT_SINGLELINE);
+		{
+			if(!window_green[win_no])
+				DrawText(hdc, letters[i][j], -1, &tiles[i][j], DT_CENTER | DT_VCENTER | DT_NOCLIP | DT_SINGLELINE);
+		}
+	}
 
 
 	//brush = CreateSolidBrush(Color(0, 255, 0, 155));
