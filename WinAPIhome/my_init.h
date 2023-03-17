@@ -157,8 +157,10 @@ void SetPaintAll()
 
 void SetPaintRow(int row, int win_no)
 {
-	for (int win_no = 0; win_no < window_count; win_no++) {
+    //if (window_green[win_no])
+    //    return;
+	//for (int win_no = 0; win_no < window_count; win_no++) {
 			for (int j = 0; j < WORD_LEN; j++)
 				paint_rect[row][j][win_no] = true;
-	}
+	//}
 }

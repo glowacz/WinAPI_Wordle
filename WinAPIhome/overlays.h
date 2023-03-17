@@ -7,13 +7,16 @@ void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overl
 {
 	//EnableWindow(hWnd, false);
 
-	RECT rect;
-	GetWindowRect(hWnd, &rect);
+	//RECT rect;
+	//GetWindowRect(hWnd, &rect);
 
 	//PAINTSTRUCT ps;
 	//HDC hdc = BeginPaint(hWnd, &ps);
 
-	//HBITMAP bitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
+ //   HDC hdc = GetDC(hWnd);
+
+	//HBITMAP bitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP1));
+	////HBITMAP bitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP2));
 	//HDC memDC = CreateCompatibleDC(hdc);
 	//HBITMAP oldBitmap = (HBITMAP)SelectObject(memDC, bitmap);
 	//
@@ -21,12 +24,19 @@ void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overl
 	//bf.BlendOp = AC_SRC_OVER;
 	//bf.BlendFlags = 0;
 	//bf.AlphaFormat = AC_SRC_ALPHA;
-	//bf.SourceConstantAlpha = 255;
+	//bf.SourceConstantAlpha = 0;
+
+ //   //SIZE size{ 200, 200 };
+ //   //POINT ptSrc{ 0, 0 };
+ //   //BLENDFUNCTION blend{ AC_SRC_OVER, 0, 0, AC_SRC_ALPHA };
+ //   //if (!::UpdateLayeredWindow(hWnd, nullptr, nullptr, &size, hdc, &ptSrc,
+ //   //    0, &blend, ULW_ALPHA))
 
 	////AlphaBlend(hdc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, memDC, 0, 0, rect.right - rect.left, rect.bottom - rect.top, bf);
-	//BitBlt(hdc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, memDC, 0, 0, SRCCOPY);
-	////StretchBlt(hdc, 200, 100, -200, 100, memDC, 0, 0, 48, 48, SRCCOPY);
-	//SelectObject(memDC, oldBitmap);
+	////BitBlt(hdc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, memDC, 0, 0, SRCCOPY);
+	//////StretchBlt(hdc, 200, 100, -200, 100, memDC, 0, 0, 48, 48, SRCCOPY);
+	//
+ //   SelectObject(memDC, oldBitmap);
 	//DeleteObject(bitmap);
 	//DeleteDC(memDC);
 
@@ -73,8 +83,8 @@ void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overl
 	//SelectObject(hdc, oldBrush);
 	//DeleteObject(brush);
 
-	//RECT rect;
-	//GetWindowRect(hWnd, &rect);
+	RECT rect;
+	GetWindowRect(hWnd, &rect);
 
 	//SetBkMode(hdc, TRANSPARENT);
 
@@ -82,30 +92,38 @@ void OverlayGreen(HWND hWnd, int win_no) // hWnd is handle to window to be overl
 
 	//HBRUSH m_field_brush = CreateSolidBrush(RGB(121, 184, 81));
 
-	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_CHILD | WS_VISIBLE | SS_CENTER, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
+	//hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_CHILD | WS_VISIBLE | SS_CENTER, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
 	
-	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
-	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, 0, 0, 100, 100, hWnd, nullptr, hInst, nullptr);
+	//hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
+	//hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_POPUP, 0, 0, 100, 100, hWnd, nullptr, hInst, nullptr);
 
-	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
-	hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 
-        hwnd_keyboard, nullptr, hInst, nullptr);
+    SetFocus(hwnd_keyboard);
+
+	hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
+    EnableWindow(hwnd_overlay[0][win_no], FALSE);
+
+    //hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 
+    //    hwnd_keyboard, nullptr, hInst, nullptr);
 	
-    //hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED | CW_USEDEFAULT | CW_USEDEFAULT, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
-	//hwnd_overlay[0] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left + 20, rect.top + 20, rect.right - rect.left - 20, rect.bottom - rect.top - 20, hWnd, nullptr, hInst, nullptr);
+    //hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED | CW_USEDEFAULT | CW_USEDEFAULT, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, hWnd, nullptr, hInst, nullptr);
+	//hwnd_overlay[0][win_no] = CreateWindowW(ClassOv, TitleOv, WS_OVERLAPPED, rect.left + 20, rect.top + 20, rect.right - rect.left - 20, rect.bottom - rect.top - 20, hWnd, nullptr, hInst, nullptr);
 	
 	//hwnd[0] = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, w_child, h_easy, hWnd, nullptr, hInst, nullptr);
 	//SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 	
-	SetWindowLong(hwnd_overlay[0], GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+	SetWindowLong(hwnd_overlay[0][win_no], GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 	//SetLayeredWindowAttributes(hWnd, 0, (255 * 50) / 100, LWA_ALPHA);
-	SetLayeredWindowAttributes(hwnd_overlay[0], 0, (255 * 50) / 100, LWA_ALPHA);
+	SetLayeredWindowAttributes(hwnd_overlay[0][win_no], 0, (255 * 50) / 100, LWA_ALPHA);
 
-	ShowWindow(hwnd_overlay[0], show);
-	UpdateWindow(hwnd_overlay[0]);
+	ShowWindow(hwnd_overlay[0][win_no], show);
+	UpdateWindow(hwnd_overlay[0][win_no]);
+
+    SetFocus(hwnd_keyboard);
+
+    //SetFocus(hwnd_keyboard);
 
 	/*RECT rect;
 	GetWindowRect(hWnd, &rect);
 
-	MoveWindow(hwnd_overlay[0], rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, true);*/
+	MoveWindow(hwnd_overlay[0][win_no], rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, true);*/
 }

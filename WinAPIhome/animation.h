@@ -18,6 +18,9 @@ void Animate(int row)
 	if (getting_bigger.second == WORD_LEN - 1 &&
 		tiles[getting_bigger.first][getting_bigger.second].bottom - tiles[getting_bigger.first][getting_bigger.second].top >= tile_size)
 	{
+        ofstream out; out.open("logs.txt");
+        out << "exit animation"; out.close();
+
 		during_animation = false;
 		return;
 	}
@@ -41,26 +44,19 @@ void Animate(int row)
 		getting_smaller.second++;
 	}
 
-	SetTimer(hwnd[0], 1, 15, nullptr);
+    //SetTimer(hwnd[0], 1, 15, nullptr);
+	SetTimer(hwnd_keyboard, 1, 15, nullptr);
 }
 
 void ChangeTileSize()
 {
 	for (int win_no = 0; win_no < window_count; win_no++)
 	{
-		//SetPaintAll();
 		SetPaintRow(getting_smaller.first, win_no);
 		InvalidateRect(hwnd[win_no], NULL, FALSE);
 		//InvalidateRect(hwnd[win_no], &tiles[getting_smaller.first][getting_smaller.second], TRUE);
 		UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
 	}
-
-	//InvalidateRect(hwnd[0], NULL, TRUE);
-	//SetPaintAll();
-	//InvalidateRect(hwnd[0], NULL, FALSE);
-	//UpdateWindow(hwnd[0]); // not absolutely necessary ???
-
-	//InvalidateRect(hwnd[0], NULL, TRUE);
 
 	if (getting_smaller.second < WORD_LEN)
 	{

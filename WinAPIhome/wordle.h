@@ -25,7 +25,7 @@ const int MAX_WIN_COUNT = 4;
 const int DICT_SIZE = 16825;
 
 int show, window_count, word_count, level;
-HWND hwnd_keyboard, hwnd[MAX_WIN_COUNT], hwnd_overlay[2];
+HWND hwnd_keyboard, hwnd[MAX_WIN_COUNT], hwnd_overlay[2][MAX_WIN_COUNT];
 
 bool window_green[MAX_WIN_COUNT];
 

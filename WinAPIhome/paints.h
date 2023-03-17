@@ -88,12 +88,10 @@ void PaintKeyboard(HWND hWnd)
 
 void PaintChild(HWND hWnd, int win_no)
 {
-    //ofstream out; out.open("out.txt", ios_base::app);
-    //out << "paint child" << "\n"; out.close();
-
 	//if (window_green[win_no])
 	//	return;
-	//HFONT hFont = CreateFont(60, 0, 0, 0, FW_HEAVY, FALSE, TRUE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, L"Arial");
+	
+    //HFONT hFont = CreateFont(60, 0, 0, 0, FW_HEAVY, FALSE, TRUE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, L"Arial");
 
 	//SendMessage(hwnd[0], WM_SETFONT, WPARAM(hFont), TRUE);
 	RECT rect;
@@ -148,7 +146,7 @@ void PaintChild(HWND hWnd, int win_no)
 
 	for (int i = 0; i < word_count; i++)
 		for (int j = 0; j < WORD_LEN; j++)
-			if (yellow[i][j][win_no] && paint_rect[i][j][win_no]) {
+			if (yellow[i][j][win_no] && paint_rect[i][j][win_no] && !window_green[win_no]) {
 				RoundRect(hdc, tiles[i][j].left, tiles[i][j].top, tiles[i][j].right, tiles[i][j].bottom, tile_margin, tile_margin);
 				paint_rect[i][j][win_no] = false;
 			}

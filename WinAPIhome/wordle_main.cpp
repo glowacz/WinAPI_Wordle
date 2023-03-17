@@ -32,8 +32,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 	InitInstance();
 
-	Easy(hwnd_keyboard);
-
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TUTORIAL));
 
 	MSG msg;
@@ -119,6 +117,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//auto drawDuration = chrono::duration_cast<chrono::milliseconds>(drawTime1 - drawTime2);
 			//drawTime2 = chrono::high_resolution_clock::now();
 			//auto elapsedDur = drawDuration.count();
+
+            ofstream out; out.open("logs.txt");
+            out <<"anim timer"; out.close();
 			
 			Animate(getting_smaller.first);
 			break;
@@ -139,10 +140,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_PAINT:
 	{
-		if (paint_keyboard) 
+		//if (paint_keyboard) 
+		if (hWnd == hwnd_keyboard) 
 		{
 			PaintKeyboard(hwnd_keyboard);
-			paint_keyboard = false;
+			//paint_keyboard = false;
 		}
 
 		for (int i = 0; i < window_count; i++)
@@ -193,18 +195,97 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 #pragma endregion keyboard_keys
 
-        case WM_NCHITTEST: {
+        case WM_NCHITTEST: 
+        {
             if (DefWindowProc(hWnd, message, wParam, lParam) == HTCLIENT)
                 return HTCAPTION;
             return DefWindowProc(hWnd, message, wParam, lParam);
         }
 
-		case WM_CTLCOLORSTATIC:
-		{
-			
-			HBRUSH m_field_brush = CreateSolidBrush(RGB(121, 184, 81));
-			return reinterpret_cast<INT_PTR>(m_field_brush);
-		}
+        //case WM_SIZE:
+        //{
+        //    if (wParam == SIZE_MINIMIZED)
+        //    {
+        //        ofstream out; out.open("out.txt", ios_base::app);
+        //        if(hWnd = hwnd_keyboard)
+        //            out << "hide keyboard" << "\n";
+        //            
+        //        for (int win_no = 0; win_no < window_count; win_no++)
+        //            if(hwnd[win_no] == hWnd)
+        //                out << "hide" <<win_no << "\n";
+        //        out.close();
+
+        //        for (int win_no = 0; win_no < window_count; win_no++)
+        //            ShowWindow(hwnd[win_no], SW_HIDE);
+        //        break;
+        //    }
+        //    //else if(wParam == SI)
+
+        //    ofstream out; out.open("out.txt", ios_base::app);
+        //    
+        //    if (hWnd = hwnd_keyboard)
+        //        out << "show keyboard" << "\n";
+        //    else
+        //        out << "show board" << "\n";
+
+        //    out.close();
+        //        
+        //    SetPaintAll();
+        //        
+        //    for (int win_no = 0; win_no < window_count; win_no++) 
+        //    {
+        //        InvalidateRect(hwnd[win_no], NULL, TRUE);
+        //        ShowWindow(hwnd[win_no], SW_SHOW);
+        //        UpdateWindow(hwnd[win_no]);
+        //     
+        //    }
+        //    //InvalidateRect(hwnd_keyboard, NULL, TRUE);
+        //}
+        //break;
+
+        //case WM_SHOWWINDOW:
+        //{
+        //    if (wParam == FALSE)
+        //    {
+        //        ofstream out; out.open("out.txt", ios_base::app);
+        //        out << "hide keyboard" << "\n"; out.close();
+        //        
+        //        for (int win_no = 0; win_no < window_count; win_no++)
+        //            if(hwnd[win_no] == hWnd)
+        //                out << "hide" <<win_no << "\n"; out.close();
+
+        //        for (int win_no = 0; win_no < window_count; win_no++)
+        //            ShowWindow(hwnd[win_no], SW_HIDE);
+        //        break;
+        //    }
+
+        //    ofstream out; out.open("out.txt", ios_base::app);
+        //    out << "show" << "\n"; out.close();
+        //    
+        //    SetPaintAll();
+        //    
+        //    for (int win_no = 0; win_no < window_count; win_no++) 
+        //    {
+        //        InvalidateRect(hwnd[win_no], NULL, TRUE);
+        //        //ShowWindow(hwnd[win_no], SW_SHOW);
+        //        //UpdateWindow(hwnd[win_no]);
+        //    }
+        //    //InvalidateRect(hwnd_keyboard, NULL, TRUE);
+        //}
+        //break;
+
+		//case WM_CTLCOLORSTATIC:
+		//{
+		//	
+		//	HBRUSH m_field_brush = CreateSolidBrush(RGB(121, 184, 81));
+		//	return reinterpret_cast<INT_PTR>(m_field_brush);
+		//}
+
+        //case WM_CLOSE:
+        //{
+        //    ofstream init; init.open("Wordle.ini");
+        //    init << window_count; init.close();
+        //}
 
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);

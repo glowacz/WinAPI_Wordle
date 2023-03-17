@@ -18,7 +18,14 @@ void Destroy_children()
 	//DestroyWindow(hwnd_keyboard);
 	for (int i = 0; i < MAX_WIN_COUNT; i++)
 		DestroyWindow(hwnd[i]);
-	DestroyWindow(hwnd_overlay[0]); DestroyWindow(hwnd_overlay[1]);
+
+    for (int i = 0; i < MAX_WIN_COUNT; i++)
+    {
+        DestroyWindow(hwnd_overlay[0][i]); 
+        DestroyWindow(hwnd_overlay[1][i]);
+    }
+
+	
 	i_tile = 0;
 	j_tile = -1;
 }
@@ -37,9 +44,12 @@ void AllLevels()
 	SetTileCords();
 	SetWhite();
 
-	paint_keyboard = true;
+	//paint_keyboard = true;
 	SetPaintAll();
 	InvalidateRect(hwnd_keyboard, NULL, TRUE);
+
+    ofstream init; init.open("Wordle.ini");
+    init << window_count; init.close();
 }
 
 void Easy(HWND hWnd)

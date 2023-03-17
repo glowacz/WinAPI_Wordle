@@ -90,19 +90,22 @@ void OnEnter(int win_no)
 			}
 		}
 	}
-
-	if (green_count == WORD_LEN)
-	{
-		window_green[win_no] = true;
-		OverlayGreen(hwnd[win_no], win_no);
-	}
 	
 	if (win_no == window_count - 1)
 	{
+        InvalidateRect(hwnd_keyboard, NULL, TRUE);
+        UpdateWindow(hwnd_keyboard); // not absolutely necessary ???
+
 		StartAnimation(0, i_tile);
 		i_tile++;
 		j_tile = -1;
 	}	
+
+    if (green_count == WORD_LEN)
+    {
+        window_green[win_no] = true;
+        OverlayGreen(hwnd[win_no], win_no);
+    }
 
 	//if (i_tile == 5)
 	//{
@@ -111,19 +114,6 @@ void OnEnter(int win_no)
 	//	// Make this window 50% alpha
 	//	SetLayeredWindowAttributes(hwnd[0], 0, (255 * 50) / 100, LWA_ALPHA);
 	//}
-
-	//for (int i = 0; i < window_count; i++)
-	//{
-	//	InvalidateRect(hwnd[i], NULL, TRUE);
-	//	UpdateWindow(hwnd[i]); // not absolutely necessary ???
-	//}
-
-	//InvalidateRect(hwnd[win_no], NULL, TRUE);
-	//UpdateWindow(hwnd[win_no]); // not absolutely necessary ???
-
-	paint_keyboard = true;
-	InvalidateRect(hwnd_keyboard, NULL, TRUE);
-	UpdateWindow(hwnd_keyboard); // not absolutely necessary ???
 }
 
 void OnBackspace()
@@ -180,6 +170,8 @@ void OnChar(WPARAM wParam)
 
 	for (int i = 0; i < window_count; i++)
 	{
+        if (window_green[i])
+            continue;
 		paint_rect[i_tile][j_tile][i] = true;
 		InvalidateRect(hwnd[i], NULL, FALSE);
 		UpdateWindow(hwnd[i]); // not absolutely necessary ???
