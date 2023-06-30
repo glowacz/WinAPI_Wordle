@@ -188,7 +188,7 @@ void PaintChild(HWND hWnd, int win_no)
 	for (int i = 0; i < solution[win_no].size(); i++)
 		sol[i] = solution[win_no][i];
 	sol[solution[win_no].size()] = '\0';
-	DrawText(hdc, sol, -1, &rc, DT_CENTER | DT_VCENTER | DT_NOCLIP | DT_SINGLELINE);
+	//DrawText(hdc, sol, -1, &rc, DT_CENTER | DT_VCENTER | DT_NOCLIP | DT_SINGLELINE);
 
 	//if (window_green[win_no]) {
 	//	EndPaint(hWnd, &ps);
