@@ -6,7 +6,7 @@ Gra Wordle napisana w WinAPI. Posiada 3 poziomy trudności, animację odsłanian
 
 Szczegóły (treść zadania przygotowana przez prowadzących przedmiot):
 
-Layout:
+**Layout:** <br />
 • Okno klawiatury wyśrodkowane w poziomie oraz odsunięte w dół, powinno zawsze być widoczne w całości<br />
 • Okna rozgrywki wyśrodkowane do zadanych części ekranu:<br />
 o Jedno okno - na środku ekranu<br />
@@ -35,7 +35,7 @@ o Cztery okna - wyśrodkowane w czterech ćwiartkach ekranu<br />
 • Jeśli nie odgadliśmy słowa pojawia się czerwony przezroczysty overlay z napisem zawierającym poprawne hasło<br />
 • Litery na klawiaturze kolorowane są natychmiastowo po odgadnięciu (Enter) zależnie od poziomu trudności i rozłożenia okien
 
-Logika aplikacji:
+**Logika aplikacji:** <br />
 • Okno klawiatury zawsze jest przezroczyste<br />
 • Okno klawiatury wyświetla litery jak na klawiaturze<br />
 • Okno klawiatury i okna rozgrywki kolorują litery zależnie od ich statusu w danym oknie rozgrywki (kilka kolorów dla większe liczby okien rozgrywki)<br />
