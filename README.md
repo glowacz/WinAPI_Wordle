@@ -1,51 +1,53 @@
+
+
 # WinAPI_Wordle
 
-Gra Wordle napisana w WinAPI. Posiada 3 poziomy trudności, animację odsłaniania liter i ich kolorowanie (w głównym oknie i oknie z klawiaturą).
+Wordle game written in WinAPI. It has 3 difficulty levels, letter revealing animation and coloring (in the main window and keyboard window).
 
 ![screen](https://github.com/glowacz/WinAPI_Wordle/assets/94084660/0cad8ea5-2bab-4bc4-827c-18629945835c)
 
-Szczegóły (treść zadania przygotowana przez prowadzących przedmiot):
+Details (task content prepared by course instructors):
 
 **Layout:** <br />
-• Okno klawiatury wyśrodkowane w poziomie oraz odsunięte w dół, powinno zawsze być widoczne w całości<br />
-• Okna rozgrywki wyśrodkowane do zadanych części ekranu:<br />
-o Jedno okno - na środku ekranu<br />
-o Dwa okna - wyśrodkowane w dwóch połówkach ekranu<br />
-o Cztery okna - wyśrodkowane w czterech ćwiartkach ekranu<br />
-• Stały rozmiar okien rozgrywki zależny od rozmiaru planszy<br />
-• Stały rozmiar okna klawiatury dobrany losowo<br />
-• Ustawiony tytuł "WORDLE - KEYBORD" oraz "WORDLE - PUZZLE" odpowiednio dla okna klawiatury i okien rozgrywki<br />
-• Ustawiona ikonka: "Wordle.ico" (Ikonka powinna być także widoczna w pasku zadań. Wystarczy jak będzie w oknie głównym.)<br />
-• Kolor tła aplikacji: (255, 255, 255)<br />
-• Kolory przycisków (tło literek) o rozmiarze 55 i marginesie między nimi 6:<br />
-• Litera pusta (domyślny kolor) - (251,252,255)<br />
-• Litera niepoprawna - (164, 174, 196)<br />
-• Litera w słowie ale w złym miejscu - (243,194,55)<br />
-• Litera w poprawnym miejscu - (121,184,81)<br />
-• Ramka litery w kolorze przycisku i/lub kolorze niepoprawnym jeśli tła ma domyślny kolor<br />
-• Domyślny rozmiar to 6 słów po 5 liter<br />
-• Rozmiar zmienny zależnie od poziomu trudności (np. Easy 6 słów, Medium 8 słów, Hard 10 słów)<br />
-• Aplikacja wczytuje dostępne słowa z pliku txt<br />
-• Każde okno rozgrywki posiada inne słowo do rozwiązania<br />
-• Litery wpisywane są jednocześnie do wszystkich okien rozgrywki<br />
-• Enter akceptuje słowo, Backspace usuwa literę<br />
-• Słowa zaakceptowanego nie można zmieniać<br />
-• Po akceptacji następuje animacja odkrycia liter w słowie<br />
-• Jeśli słowo została odgadnięte, pojawia się zielony przezroczysty overlay a okno przestaje akceptować nowe litery<br />
-• Jeśli nie odgadliśmy słowa pojawia się czerwony przezroczysty overlay z napisem zawierającym poprawne hasło<br />
-• Litery na klawiaturze kolorowane są natychmiastowo po odgadnięciu (Enter) zależnie od poziomu trudności i rozłożenia okien
+• Keyboard window centered horizontally and pushed down, should always be fully visible<br />
+• Game windows centered to given screen sections:<br />
+o One window - in the center of the screen<br />
+o Two windows - centered in two halves of the screen<br />
+o Four windows - centered in four quarters of the screen<br />
+• Fixed size of game windows depending on board size<br />
+• Fixed size of keyboard window chosen randomly<br />
+• Set title "WORDLE - KEYBORD" and "WORDLE - PUZZLE" respectively for keyboard window and game windows<br />
+• Set icon: "Wordle.ico" (Icon should also be visible in the taskbar. It suffices if it's in the main window.)<br />
+• Application background color: (255, 255, 255)<br />
+• Button colors (letter backgrounds) size 55 and margin between them 6:<br />
+• Empty letter (default color) - (251,252,255)<br />
+• Incorrect letter - (164, 174, 196)<br />
+• Letter in word but wrong place - (243,194,55)<br />
+• Letter in correct place - (121,184,81)<br />
+• Letter border in button color and/or incorrect color if background has default color<br />
+• Default size is 6 words of 5 letters<br />
+• Variable size depending on difficulty level (e.g. Easy 6 words, Medium 8 words, Hard 10 words)<br />
+• Application loads available words from txt file<br />
+• Each game window has a different word to solve<br />
+• Letters are entered simultaneously to all game windows<br />
+• Enter accepts word, Backspace removes letter<br />
+• Accepted word cannot be changed<br />
+• After acceptance letter revealing animation in the word occurs<br />
+• If word was guessed, green transparent overlay appears and window stops accepting new letters<br />
+• If we didn't guess the word, red transparent overlay appears with message containing correct password<br />
+• Keyboard letters are colored immediately after guessing (Enter) depending on difficulty level and window layout
 
-**Logika aplikacji:** <br />
-• Okno klawiatury zawsze jest przezroczyste<br />
-• Okno klawiatury wyświetla litery jak na klawiaturze<br />
-• Okno klawiatury i okna rozgrywki kolorują litery zależnie od ich statusu w danym oknie rozgrywki (kilka kolorów dla większe liczby okien rozgrywki)<br />
-• Zmiana poziomu trudności (również na ten sam) powoduje restart rozgrywki i reset okien<br />
-• Enter akceptuje słowo<br />
-• Backspace usuwa literę<br />
-• Wyświetlanie overlay zależnie od statusu gry<br />
-• Zielony - słowo odgadnięte<br />
-• Czerwony z wyświetlonym rozwiązaniem - przegrana<br />
-•	Litery odkrywane są przy pomocy animacji<br />
-•	Rysowanie okna nie powinno powodować mrugania<br />
-•	Wpisywanie liter odbywa się tylko w momencie kiedy okno klawiatury ma focus<br />
-•	Aplikacja korzysta z zapisu/wczytania poziomu trudności do/z pliku ini<br />
+**Application logic:** <br />
+• Keyboard window is always transparent<br />
+• Keyboard window displays letters as on keyboard<br />
+• Keyboard window and game windows color letters depending on their status in given game window (several colors for larger number of game windows)<br />
+• Changing difficulty level (also to the same) causes game restart and windows reset<br />
+• Enter accepts word<br />
+• Backspace removes letter<br />
+• Display overlay depending on game status<br />
+• Green - word guessed<br />
+• Red with displayed solution - loss<br />
+• Letters are revealed using animation<br />
+• Window drawing should not cause flickering<br />
+• Letter input occurs only when keyboard window has focus<br />
+• Application uses save/load of difficulty level to/from ini file
